@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>CSV to HTML</title>
+	</head>
+	<body>
+		<div id="container"></div>
+		<script>
+			function readFile(file) {
+				var rawFile = new XMLHttpRequest();
+				rawFile.open("GET", file, false);
+				rawFile.onreadystatechange = function() {
+					if(rawFile.readyState === 4) {
+						if(rawFile.status === 200 || rawFile.status == 0) {
+							var data = rawFile.responseText;
+							var html = "<table>";
+							var rows = data.split("\n");
+							rows.forEach(function getrowvalues(row) {
+								var columns = row.split(",");
+								html += "<tr>";
+								columns.forEach(function getcolumnvalues(column) {
+									html += "<td>" + column + "</td>";
+								})
+								html += "</tr>";
+							})
+							html += "</table>";
+							document.getElementById("container").innerHTML = html;					}
+						}
+					}
+				rawFile.send();
+			}
+			readFile("first_sem_mechanics_internals_1.csv");
+		</script>
+	</body>
+</html>
